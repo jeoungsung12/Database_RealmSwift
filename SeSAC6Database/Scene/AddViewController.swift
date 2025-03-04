@@ -50,11 +50,11 @@ class AddViewController: UIViewController {
         do {
             try realm.write {
                 let data = JackTable(
-                    money: .random(in: 100...10000),
-                    category: categoryField.text ?? "",
-                    name: titleTextField.text ?? "",
+                    money: Int.random(in: 100...1000) * 100,
+                    category: "생활비",
+                    name: "린스",
                     isPay: false,
-                    memo: memoField.text
+                    memo: nil
                 )
                 realm.add(data)
                 print("램 저장완료")

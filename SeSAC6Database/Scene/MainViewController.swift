@@ -9,19 +9,27 @@ import UIKit
 import SnapKit
 import SwiftUI
 import RealmSwift
-
+/*
+ 뷰 갱신
+ 데이터 수정
+ */
 final class MainViewController: UIViewController {
-
     private let tableView = UITableView()
-    private var list: Results<JackTable>!
+    private var list: [JackTable] = []
+    //램에 들어있는 list넣어주고 -> 뷰에 보여준다. results 타입이기 때문에 상황에 따라서 잘 나오지 않을때도 있다. 셀 재사용 문제로 볼수 있다.
     private let realm = try! Realm() //default.realm
      
     override func viewDidLoad() {
         super.viewDidLoad()
         print(#function)
-        print(realm.configuration.fileURL)
-        list = realm.objects(JackTable.self)
-        dump(list)
+//        print(realm.configuration.fileURL)
+        let data = realm.objects(JackTable.self)
+//            .where { $0.name.contains("sesac", options: .caseInsensitive) }
+//            .sorted(byKeyPath: "money", ascending: false)
+//        dump(list)
+        
+        list = Array(data)
+        
         configureHierarchy()
         configureView()
         configureConstraints()
@@ -30,6 +38,8 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(#function)
+        list = Array(realm.objects(JackTable.self))
+        tableView.reloadData()
     }
     
     private func configureHierarchy() {
@@ -82,7 +92,23 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
- 
+        let data = list[indexPath.row]
+        do {
+            try realm.write {
+//                realm.delete(data)
+                
+                //수정
+                realm.create(JackTable.self, value: [
+                    "id": data.id,
+                    "money": 100000000
+                ], update: .modified)
+                
+                list = Array(realm.objects(JackTable.self))
+                tableView.reloadData()
+            }
+        } catch {
+            print("램 데이터 삭제 실패")
+        }
     }
       
 }
