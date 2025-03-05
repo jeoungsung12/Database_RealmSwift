@@ -1,23 +1,22 @@
 //
-//  MainViewController.swift
+//  FolderDetailViewController.swift
 //  SeSAC6Database
 //
-//  Created by Jack on 3/4/25.
+//  Created by 정성윤 on 3/5/25.
 //
+
 
 import UIKit
 import SnapKit
-import SwiftUI
 import RealmSwift
 /*
  뷰 갱신
  데이터 수정
  */
-final class MainViewController: UIViewController {
+final class FolderDetailViewController: UIViewController {
     private let tableView = UITableView()
-    private var list: [JackTable] = []
-    //램에 들어있는 list넣어주고 -> 뷰에 보여준다. results 타입이기 때문에 상황에 따라서 잘 나오지 않을때도 있다. 셀 재사용 문제로 볼수 있다.
-//    private let realm = try! Realm() //default.realm
+    var list: List<JackTable>!
+    var id: ObjectId!
      
     private let repository: JackTableRepositoryType = JackTableRepository()
     private let folderRepository: FolderRepositoryType = FolderRepository()
@@ -29,26 +28,11 @@ final class MainViewController: UIViewController {
         folderRepository.createItem(name: "계모임")
         folderRepository.createItem(name: "회사")
         folderRepository.createItem(name: "멘토")
-        
         print(#function)
         print(repository.getFileURL())
-//        let data = realm.objects(JackTable.self)
-//            .where { $0.name.contains("sesac", options: .caseInsensitive) }
-//            .sorted(byKeyPath: "money", ascending: false)
-//        dump(list)
-        
-        list = Array(repository.fetchAll())
-        
         configureHierarchy()
         configureView()
         configureConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print(#function)
-//        list = Array(realm.objects(JackTable.self))
-        tableView.reloadData()
     }
     
     private func configureHierarchy() {
@@ -68,7 +52,6 @@ final class MainViewController: UIViewController {
     }
     
     private func configureConstraints() {
-         
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -76,12 +59,13 @@ final class MainViewController: UIViewController {
      
     @objc func rightBarButtonItemClicked() {
         let vc = AddViewController()
+        vc.id = id
         navigationController?.pushViewController(vc, animated: true)
     }
 
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension FolderDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count
@@ -93,8 +77,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         let data = list[indexPath.row]
         
-        cell.titleLabel.text = "\(data.name), \(data.category)"
-        cell.subTitleLabel.text = data.folder.first?.name
+        cell.titleLabel.text = data.name
+        cell.subTitleLabel.text = data.category
         cell.overviewLabel.text = data.money.formatted()
         
         return cell
@@ -103,14 +87,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = list[indexPath.row]
         repository.deleteItem(data: data)
-        tableView.reloadData()
+//        tableView.reloadData()
     }
       
-}
-
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewControllerRepresentable<MainViewController>()
-    }
 }

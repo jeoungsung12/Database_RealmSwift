@@ -21,7 +21,9 @@ class AddViewController: UIViewController {
     let titleTextField = UITextField()
     let contentTextField = UITextField()
     private let repository: JackTableRepositoryType = JackTableRepository()
+    private let folderRepository: FolderRepositoryType = FolderRepository()
     
+    var id: ObjectId!
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
@@ -44,7 +46,8 @@ class AddViewController: UIViewController {
     
     @objc func saveButtonClicked() {
         print(#function)
-        repository.createItemInFolder()
+        let folder = folderRepository.fetchAll().where { $0.id == id }.first!
+        repository.createItemInFolder(folder: folder)
         navigationController?.popViewController(animated: true)
     }
     

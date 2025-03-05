@@ -23,6 +23,11 @@ class FolderViewController: UIViewController {
         dump(list)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     private func configureHierarchy() {
         view.addSubview(tableView)
     }
@@ -33,13 +38,20 @@ class FolderViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.id)
+        
+        let image = UIImage(systemName: "plus")
+        let item = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightBarButtonItemClicked))
+        navigationItem.rightBarButtonItem = item
     }
     
     private func configureConstraints() {
-         
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+    @objc func rightBarButtonItemClicked() {
+        let vc = MainViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
      
 }
@@ -61,7 +73,11 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let data = list[indexPath.row]
+        let vc = FolderDetailViewController()
+        vc.list = data.detail
+        vc.id = data.id
+        navigationController?.pushViewController(vc, animated: true)
     }
       
 }

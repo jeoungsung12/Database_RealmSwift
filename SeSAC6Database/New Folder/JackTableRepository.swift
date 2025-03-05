@@ -14,7 +14,7 @@ protocol JackTableRepositoryType {
     func deleteItem(data: JackTable)
     func createItem()
     func updateItemMoney(data: JackTable)
-    func createItemInFolder()
+    func createItemInFolder(folder: Folder)
 }
 
 final class JackTableRepository: JackTableRepositoryType {
@@ -42,13 +42,15 @@ final class JackTableRepository: JackTableRepositoryType {
         }
     }
     
-    func createItemInFolder() { //Folder 테이블과 상관없이 Folder에 레코드를 바로 추가함.
+    func createItemInFolder(folder: Folder) { //Folder 테이블과 상관없이 Folder에 레코드를 바로 추가함.
         do {
             try realm.write {
-                let folder = realm.objects(Folder.self)
-                    .where {
-                        $0.name == "개인"
-                    }.first!
+//                let folder = realm.objects(Folder.self)
+//                    .where {
+//                        $0.name == "개인"
+//                    }.first!
+                
+                
                 
                 let data = JackTable(
                     money: Int.random(in: 100...1000) * 100,
