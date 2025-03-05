@@ -17,18 +17,27 @@ final class MainViewController: UIViewController {
     private let tableView = UITableView()
     private var list: [JackTable] = []
     //램에 들어있는 list넣어주고 -> 뷰에 보여준다. results 타입이기 때문에 상황에 따라서 잘 나오지 않을때도 있다. 셀 재사용 문제로 볼수 있다.
-    private let realm = try! Realm() //default.realm
+//    private let realm = try! Realm() //default.realm
      
+    private let repository: JackTableRepositoryType = JackTableRepository()
+    private let folderRepository: FolderRepositoryType = FolderRepository()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        folderRepository.createItem(name: "개인")
+        folderRepository.createItem(name: "계모임")
+        folderRepository.createItem(name: "회사")
+        folderRepository.createItem(name: "멘토")
+        
         print(#function)
-//        print(realm.configuration.fileURL)
-        let data = realm.objects(JackTable.self)
+        print(repository.getFileURL())
+//        let data = realm.objects(JackTable.self)
 //            .where { $0.name.contains("sesac", options: .caseInsensitive) }
 //            .sorted(byKeyPath: "money", ascending: false)
 //        dump(list)
         
-        list = Array(data)
+        list = Array(repository.fetchAll())
         
         configureHierarchy()
         configureView()
@@ -38,7 +47,7 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(#function)
-        list = Array(realm.objects(JackTable.self))
+//        list = Array(realm.objects(JackTable.self))
         tableView.reloadData()
     }
     
@@ -93,22 +102,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = list[indexPath.row]
-        do {
-            try realm.write {
-//                realm.delete(data)
-                
-                //수정
-                realm.create(JackTable.self, value: [
-                    "id": data.id,
-                    "money": 100000000
-                ], update: .modified)
-                
-                list = Array(realm.objects(JackTable.self))
-                tableView.reloadData()
-            }
-        } catch {
-            print("램 데이터 삭제 실패")
-        }
+        repository.deleteItem(data: data)
+        tableView.reloadData()
     }
       
 }

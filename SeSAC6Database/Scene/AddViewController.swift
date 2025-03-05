@@ -20,9 +20,7 @@ class AddViewController: UIViewController {
     
     let titleTextField = UITextField()
     let contentTextField = UITextField()
-       
-    //realm
-    let realm = try! Realm()
+    private let repository: JackTableRepositoryType = JackTableRepository()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,23 +44,7 @@ class AddViewController: UIViewController {
     
     @objc func saveButtonClicked() {
         print(#function)
-        
-        do {
-            try realm.write {
-                let data = JackTable(
-                    money: Int.random(in: 100...1000) * 100,
-                    category: "생활비",
-                    name: "린스",
-                    isPay: false,
-                    memo: nil
-                )
-                realm.add(data)
-                print("램 저장완료")
-            }
-        } catch {
-            print("램에 저장이 실패한 경우")
-        }
-        
+        repository.createItemInFolder()
         navigationController?.popViewController(animated: true)
     }
     

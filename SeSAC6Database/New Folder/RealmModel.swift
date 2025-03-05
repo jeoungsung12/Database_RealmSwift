@@ -7,7 +7,10 @@
 
 import Foundation
 import RealmSwift
-
+//Realm Table - to many relationship, to one relationship, inverse
+//정말 동일하다면 같이 써도 되긴 하지만 -> 서버 변경, 디비 컬럼 변경
+// -> Table 내 선언되어 있는 모든 컬럼들이 decodable
+// -> Realm 의 특성중 Decdoable을 따르지 않는 타입을 사용하게 되면??
 final class JackTable: Object {
     //기본키, 중복X, 비어X, index embed!!
     @Persisted(primaryKey: true) var id: ObjectId
@@ -36,14 +39,5 @@ final class JackTable: Object {
         self.memo = memo
         self.date = Date()
         self.like = false
-    }
-}
-
-final class Folder: Object {
-    @Persisted var name: String
-    
-    convenience init(name: String) {
-        self.init()
-        self.name = name
     }
 }
