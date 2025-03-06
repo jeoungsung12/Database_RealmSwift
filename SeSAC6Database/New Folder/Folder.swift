@@ -29,11 +29,21 @@ import RealmSwift
 //    }
 //}
 
+final class Memo: EmbeddedObject {
+    @Persisted var content: String
+    @Persisted var regDate: Date
+    @Persisted var editDate: Date
+}
+
 final class Folder: Object {
     @Persisted var id: ObjectId
     @Persisted var name: String
     @Persisted var favorite: Bool
     @Persisted var nameDescription: String
+    
+    //1:1 to one relationship: Optional
+    @Persisted var memo: Memo?
+    
     //1:n, to many relationship
     @Persisted var detail: List<JackTable>
     

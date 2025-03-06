@@ -83,7 +83,7 @@ extension FolderDetailViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = list[indexPath.row]
         repository.deleteItem(data: data)
-//        tableView.reloadData()
+        tableView.reloadData()
     }
       
 }

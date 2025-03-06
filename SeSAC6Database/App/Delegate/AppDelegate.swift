@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func migration() {
-        let config = Realm.Configuration(schemaVersion: 5) { migration, oldSchemaVersion in
+        let config = Realm.Configuration(schemaVersion: 6) { migration, oldSchemaVersion in
             //0 -> 1: Folder에 like 추가
             //단순히 테이블, 컬럼 추가 삭제에는 코드 필요 X
             if oldSchemaVersion < 1 { }
@@ -56,6 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     newObject["nameDescription"] = oldObject["name"] ?? "" + "폴더에 대해서 설명해주세요."
                 }
             }
+            //5 -> 6: Memo EmbededObject 생성
+            if oldSchemaVersion < 6 { }
+            
         }
         Realm.Configuration.defaultConfiguration = config
     }

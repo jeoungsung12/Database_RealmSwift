@@ -79,10 +79,19 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = list[indexPath.row]
-        let vc = FolderDetailViewController()
-        vc.list = data.detail
-        vc.id = data.id
-        navigationController?.pushViewController(vc, animated: true)
+        //EmbeddedObject
+        repository.createMemo(data: data)
+        
+        //폴더 삭제
+        //폴더 지울 때 세부 항목도 지울 것인지?
+        //폴더 지울 때 세부 항목을 다른 폴더로 이동해줄 것인지?
+//        repository.deleteItem(data: data)
+//        tableView.reloadData()
+        
+//        let vc = FolderDetailViewController()
+//        vc.list = data.detail
+//        vc.id = data.id
+//        navigationController?.pushViewController(vc, animated: true)
     }
       
 }
