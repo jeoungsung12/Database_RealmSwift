@@ -42,6 +42,5 @@ final class JackTable: Object {
         self.isPay = isPay
         self.memo = memo
         self.date = Date()
-        self.like = false
     }
 }

@@ -23,12 +23,8 @@ final class FolderDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        folderRepository.createItem(name: "개인")
-        folderRepository.createItem(name: "계모임")
-        folderRepository.createItem(name: "회사")
-        folderRepository.createItem(name: "멘토")
-        print(#function)
+//        repository.getFileURL()
+//        print(#function)
         print(repository.getFileURL())
         configureHierarchy()
         configureView()

@@ -31,7 +31,7 @@ final class MainViewController: UIViewController {
         folderRepository.createItem(name: "멘토")
         
         print(#function)
-        print(repository.getFileURL())
+//        print(repository.getFileURL())
 //        let data = realm.objects(JackTable.self)
 //            .where { $0.name.contains("sesac", options: .caseInsensitive) }
 //            .sorted(byKeyPath: "money", ascending: false)

@@ -20,7 +20,12 @@ class FolderViewController: UIViewController {
         configureView()
         configureConstraints()
         list = repository.fetchAll()
-        dump(list)
+        
+        repository.createItem(name: "개인")
+        repository.createItem(name: "계모임")
+        repository.createItem(name: "회사")
+        repository.createItem(name: "멘토")
+//        dump(list)
     }
     
     override func viewWillAppear(_ animated: Bool) {
