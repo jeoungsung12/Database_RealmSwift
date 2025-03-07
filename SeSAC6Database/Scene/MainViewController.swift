@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FSCalendar
 import SnapKit
 import SwiftUI
 import RealmSwift
@@ -15,6 +16,8 @@ import RealmSwift
  */
 final class MainViewController: UIViewController {
     private let tableView = UITableView()
+    private let calendar = FSCalendar()
+    
     private var list: [JackTable] = []
     //램에 들어있는 list넣어주고 -> 뷰에 보여준다. results 타입이기 때문에 상황에 따라서 잘 나오지 않을때도 있다. 셀 재사용 문제로 볼수 있다.
 //    private let realm = try! Realm() //default.realm
@@ -53,9 +56,14 @@ final class MainViewController: UIViewController {
     
     private func configureHierarchy() {
         view.addSubview(tableView)
+        view.addSubview(calendar)
     }
     
     private func configureView() {
+        calendar.backgroundColor = .green
+        calendar.dataSource = self
+        calendar.delegate = self
+        
         view.backgroundColor = .white
         tableView.rowHeight = 130
         tableView.delegate = self
@@ -68,9 +76,14 @@ final class MainViewController: UIViewController {
     }
     
     private func configureConstraints() {
-         
+        calendar.snp.makeConstraints { make in
+            make.horizontalEdges.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.height.equalTo(250)
+        }
+        
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(calendar.snp.bottom)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
      
@@ -79,6 +92,39 @@ final class MainViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
 
+}
+
+extension MainViewController: FSCalendarDelegate, FSCalendarDataSource {
+//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+//        //이벤트 점을 찍을수 있는 닷!
+//        print(#function, date)
+//        return 2
+//    }
+//    
+//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+//        return UIImage(systemName: "star")
+//    }
+//    
+//    func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
+//        return "subTitle"
+//    }
+//    
+//    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
+//        return "title"
+//    }
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print(#function, date)
+        //선택한 날짜
+        let start = Calendar.current.startOfDay(for: date) //시작날짜
+        //선택한 날짜의 다음날 날짜
+        let end: Date = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? Date() //그 다음날의 시작점!
+        //Realm where filter, iOS NSPredicate
+        let predicate = NSPredicate(format: "regdate >= %@ && regdate < %@", start as NSDate, end as NSDate)
+        
+        let realm = try! Realm()
+        let result = realm.objects(JackTable.self).filter(predicate)
+        dump(result)
+    }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {

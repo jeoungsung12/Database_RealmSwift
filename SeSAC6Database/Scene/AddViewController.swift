@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import SwiftUI
 import RealmSwift
+import PhotosUI
 
 class AddViewController: UIViewController {
      
@@ -41,13 +42,33 @@ class AddViewController: UIViewController {
     
     @objc func addButtonClicked() {
         print(#function)
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 3
+        configuration.filter = .any(of: [.videos, .images])
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
     }
+                
  
     
     @objc func saveButtonClicked() {
         print(#function)
+        
         let folder = folderRepository.fetchAll().where { $0.id == id }.first!
-        repository.createItemInFolder(folder: folder)
+        
+        let data = JackTable(
+            money: Int.random(in: 100...1000) * 100,
+            category: ["생활비", "카페", "식비"].randomElement()!,
+            name: ["린스", "커피", "과자", "칼국수"].randomElement()!,
+            isPay: false,
+            memo: nil
+        )
+        repository.createItemInFolder(folder: folder, data: data)
+        if let image = photoImageView.image {
+            self.saveImageToDocument(image: image, filename: "\(data.id)")
+        }
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -119,14 +140,36 @@ class AddViewController: UIViewController {
             make.centerX.equalTo(view)
             make.top.equalTo(titleTextField.snp.bottom).offset(20)
         }
-        
-    }
+         
+     }
     
 }
 
+extension AddViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        picker.dismiss(animated: true)
+        
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                
+                DispatchQueue.main.async {
+                    self.photoImageView.image = image as? UIImage
+                }
+                
+            }
+            
+        }
+    }
+}
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
         ViewControllerRepresentable<AddViewController>()
     }
 }
+

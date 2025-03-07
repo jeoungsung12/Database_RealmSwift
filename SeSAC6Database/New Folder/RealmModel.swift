@@ -24,6 +24,8 @@ final class JackTable: Object {
     @Persisted var date: Date //등록일
     @Persisted var like: Bool //좋아요
     
+    @Persisted var poster: Data
+    
     //폴더로 링킹이 되어있던데? 부모에대한 폴더 확인!(정보확인) 없으면 부모에 대한 건 모름!
     @Persisted(originProperty: "detail")
     var folder: LinkingObjects<Folder>
