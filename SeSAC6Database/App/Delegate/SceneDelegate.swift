@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         
-        let vc = UINavigationController(rootViewController: FolderViewController())
+        let vc = UINavigationController(rootViewController: BackupViewController())
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
     }

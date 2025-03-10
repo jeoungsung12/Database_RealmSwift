@@ -1,5 +1,5 @@
 {
-  "originHash" : "6f6c10d2f09891dc1f597bfd32358511aabd3915d6cf367a46bb32d136f2450d",
+  "originHash" : "a072030d7ca260a06ca0b3f8506b64f3c522da8971691dca530a82b7c6eec594",
   "pins" : [
     {
       "identity" : "fscalendar",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
         "version" : "5.7.1"
+      }
+    },
+    {
+      "identity" : "zip",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marmelroy/Zip.git",
+      "state" : {
+        "revision" : "67fa55813b9e7b3b9acee9c0ae501def28746d76",
+        "version" : "2.1.2"
       }
     }
   ],

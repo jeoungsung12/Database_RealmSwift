@@ -11,6 +11,7 @@
 		E40488212D7A7309003BADD3 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = E40488202D7A7309003BADD3 /* FSCalendar */; };
 		E4614A542D76874E00B48BEE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E4614A532D76874E00B48BEE /* RealmSwift */; };
 		E4614A552D7687C800B48BEE /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E4614A532D76874E00B48BEE /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4807BFA2D7E6DE6007D5D1C /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = E4807BF92D7E6DE6007D5D1C /* Zip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,6 +60,7 @@
 			files = (
 				E4614A542D76874E00B48BEE /* RealmSwift in Frameworks */,
 				E40488212D7A7309003BADD3 /* FSCalendar in Frameworks */,
+				E4807BFA2D7E6DE6007D5D1C /* Zip in Frameworks */,
 				04753C102D7671530069A260 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +108,7 @@
 				04753C0F2D7671530069A260 /* SnapKit */,
 				E4614A532D76874E00B48BEE /* RealmSwift */,
 				E40488202D7A7309003BADD3 /* FSCalendar */,
+				E4807BF92D7E6DE6007D5D1C /* Zip */,
 			);
 			productName = SeSAC6Database;
 			productReference = 04753BF02D7670890069A260 /* SeSAC6Database.app */;
@@ -139,6 +142,7 @@
 				04753C0E2D7671530069A260 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				E4614A522D76874E00B48BEE /* XCRemoteSwiftPackageReference "realm-swift" */,
 				E404881F2D7A7309003BADD3 /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				E4807BF82D7E6DE6007D5D1C /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04753BF12D7670890069A260 /* Products */;
@@ -404,6 +408,14 @@
 				version = 20.0.1;
 			};
 		};
+		E4807BF82D7E6DE6007D5D1C /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -421,6 +433,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E4614A522D76874E00B48BEE /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		E4807BF92D7E6DE6007D5D1C /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4807BF82D7E6DE6007D5D1C /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

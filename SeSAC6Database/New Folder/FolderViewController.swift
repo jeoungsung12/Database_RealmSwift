@@ -47,6 +47,11 @@ class FolderViewController: UIViewController {
         let image = UIImage(systemName: "plus")
         let item = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightBarButtonItemClicked))
         navigationItem.rightBarButtonItem = item
+        
+        
+        let leftimage = UIImage(systemName: "pencil")
+        let leftitem = UIBarButtonItem(image: leftimage, style: .plain, target: self, action: #selector(rightBarButtonItemClicked))
+        navigationItem.rightBarButtonItem = leftitem
     }
     
     private func configureConstraints() {
@@ -55,7 +60,7 @@ class FolderViewController: UIViewController {
         }
     }
     @objc func rightBarButtonItemClicked() {
-        let vc = MainViewController()
+        let vc = BackupViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
      
